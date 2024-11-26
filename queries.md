@@ -38,30 +38,30 @@ Using the `movies_db` database, write the correct SQL queries for each of these 
 
 7.  The movie title and studio name for every movie in the
     database.
-    SELECT movies.title, studios.studio_name
+    SELECT movies.title, studios.name
     FROM movies
-    JOIN studios ON movies.studio_id = studios.studio_id;
+    JOIN studios ON movies.studio_id = studios.id;
 
 8.  The star first name, star last name, and movie title for every
     matching movie and star pair in the database.
     SELECT stars.first_name, stars.last_name, movies.title
-    FROM movie_stars
-    JOIN stars ON movie_stars.star_id = stars.star_id
-    JOIN movies ON movie_stars.movie_id = movies.movie_id;
+    FROM stars
+    JOIN stars ON stars.star_id = stars.id
+    JOIN movies ON stars.movie_id = movies.id;
 
 9.  The first and last names of every star who has been in a G-rated movie. The first and last name should appear only once for each star, even if they are in several G-rated movies. *IMPORTANT NOTE*: it's possible that there can be two *different* actors with the same name, so make sure your solution accounts for that.
     SELECT DISTINCT stars.star_id, stars.first_name, stars.last_name
     FROM stars
-    JOIN movie_stars ON stars.star_id = movie_stars.star_id
-    JOIN movies ON movie_stars.movie_id = movies.movie_id
+    JOIN stars ON stars.star_id = stars.stars.id
+    JOIN movies ON stars.movie_id = movies.movie_id
     WHERE movies.rating = 'G';
 
 10. The first and last names of every star along with the number
     of movies they have been in, in descending order by the number of movies. (Similar to #9, make sure
     that two different actors with the same name are considered separately).
-    SELECT stars.star_id, stars.first_name, stars.last_name, COUNT(movie_stars.movie_id) AS movie_count
+    SELECT stars.star_id, stars.first_name, stars.last_name, COUNT(stars.movie_id) AS movie_count
     FROM stars
-    JOIN movie_stars ON stars.star_id = movie_stars.star_id
+    JOIN stars ON stars.star_id = stars.id
     GROUP BY stars.star_id, stars.first_name, stars.last_name
     ORDER BY movie_count DESC;
 
